@@ -1,0 +1,65 @@
+<html>
+  <canvas
+    id="myCanvas"
+    width="800"
+    height="800"
+    style="background: #000"
+  ></canvas>
+
+  <script>
+    (function() {
+      var canvas = document.getElementById("myCanvas");
+      var context = canvas.getContext("2d");
+
+      // 40 * 20 = 800
+      var gameField = 40; // 40 * 40 game field
+      var tiles = 20;
+
+      var food = {
+        x: Math.floor(Math.random() * gameField),
+        y: Math.floor(Math.random() * gameField)
+      };
+
+      var snake = { x: 0, y: 0 };
+      var movement = { x: 0, y: 0 };
+      var snakeTrail = [];
+      var snakeLength = 5;
+
+      function draw() {
+        // clear canvas
+        // draw snake
+        // draw food
+      }
+
+      function update() {
+        // set new snake position
+        // save snake trail
+        // update food position
+        // reset game if exceeds boundary
+      }
+
+      window.addEventListener("keydown", function(e) {
+        if (e.keyCode === 37 && movement.x !== 1) {
+          movement = { x: -1, y: 0 };
+          console.log("MOVE LEFT", movement);
+        } else if (e.keyCode === 38 && movement.y !== 1) {
+          movement = { x: 0, y: -1 };
+          console.log("MOVE UP", movement);
+        } else if (e.keyCode === 39 && movement.x !== -1) {
+          movement = { x: 1, y: 0 };
+          console.log("MOVE RIGHT", movement);
+        } else if (e.keyCode === 40 && movement.y !== -1) {
+          movement = { x: 0, y: 1 };
+          console.log("MOVE DOWN", movement);
+        }
+      });
+
+      function startGame() {
+        draw();
+        update();
+      }
+
+      setInterval(startGame, 1000 / 10);
+    })();
+  </script>
+</html>

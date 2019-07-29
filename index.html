@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>HTML5 CANVAS</title>
+
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" href="css/theme/black.css" />
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.type = "text/css";
+      link.href = window.location.search.match(/print-pdf/gi)
+        ? "css/print/pdf.css"
+        : "css/print/paper.css";
+      document.getElementsByTagName("head")[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>&lt;canvas&gt;</h1>
+          <h3>Creating your first HTML5 Game</h3>
+          <!-- <p>
+            <small>
+              Created by
+              <a href="http://migelleluigi.github.io"
+                >migelleluigi.github.io</a
+              ></small
+            >
+          </p> -->
+        </section>
+
+        <section>
+          What is canvas?
+          <pre>
+		  	<code class="hljs" data-trim data-line-numbers="6">
+				  
+			&lt;html&gt;
+			  &lt;head&gt;
+			    <title>HTML5 Canvas</title>
+			  &lt;/head&gt;
+			  &lt;body&gt;
+			    &lt;canvas&gt;&lt;/canvas&gt;
+			  &lt;/body&gt;
+			&lt;/html&gt;
+			</code>
+		  </pre>
+          <aside class="notes">
+            About canvas here
+          </aside>
+        </section>
+
+        <section id="fragments">
+          <h2>Animation Logic</h2>
+          <ol>
+            <li class="fragment">Draw initial state</li>
+            <li class="fragment">Clear canvas</li>
+            <li class="fragment">Redraw to new state</li>
+          </ol>
+        </section>
+
+        <section data-state="draw">
+          <h2>Draw</h2>
+          <!-- FillStyle FillRect setInterval -->
+          <canvas
+            id="myCanvas"
+            width="800"
+            height="100"
+            style="background: #fff"
+          ></canvas>
+
+          <pre><code class="hljs" data-trim data-line-numbers>
+&lt;html&gt;
+ &lt;body&gt;	
+  &lt;canvas id="myCanvas" width="800" height="100"&gt;&lt;/canvas&gt;
+
+  &lt;script&gt;
+   var canvas = document.getElementById("myCanvas");
+   var ctx = canvas.getContext("2d");
+   var x = 25;
+
+   ctx.fillStyle = "#F00"; // red
+   ctx.fillRect(x, 25, 50, 50);
+  &lt;/script&gt;
+
+ &lt;/body&gt;
+&lt;/html&gt;
+		  </code></pre>
+        </section>
+
+        <section>
+          <section data-state="update">
+            <h2>Clear & Update</h2>
+            <!-- FillStyle FillRect setInterval -->
+            <canvas
+              id="myCanvas2"
+              width="800"
+              height="100"
+              style="background: #fff"
+            ></canvas>
+
+            <pre><code class="hljs js" data-trim data-line-numbers="5,6,10,11,13">
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var x = 25;
+
+setInterval(function() {
+  ctx.clearRect(0, 0, 800, 150);
+  ctx.fillStyle = "#F00"; // red
+  ctx.fillRect(x, 25, 100, 100);
+
+  if (x > 800) { x = 0; }
+  x = x + 5;
+
+}, 1000/60);
+
+		  </code>
+		</pre>
+          </section>
+          <section data-state="noclear">
+            <h2>Update without clear</h2>
+            <canvas
+              id="myCanvas3"
+              width="800"
+              height="100"
+              style="background: #fff"
+            ></canvas>
+
+            <pre><code class="hljs js" data-trim data-line-numbers="5,6,10,11,13">
+					var canvas = document.getElementById("myCanvas");
+					var ctx = canvas.getContext("2d");
+					var x = 25;
+					
+					setInterval(function() {
+					  
+					  ctx.fillStyle = "#F00"; // red
+					  ctx.fillRect(x, 25, 100, 100);
+					
+					  if (x > 800) { x = 0; }
+					  x = x + 5;
+					
+					}, 1000/60);
+					
+							  </code>
+							</pre>
+          </section>
+        </section>
+        <section>
+          <h2>DEMO</h2>
+          <ol>
+            <li>Get canvas and context</li>
+            <li>Intialize values</li>
+            <li>Draw</li>
+            <li>Create controls</li>
+            <li>Set game rules</li>
+          </ol>
+        </section>
+        <section>
+          <h4>Libraries</h4>
+          <ul>
+            <li><a href="http://phaser.io">Phaser</a></li>
+            <li><a href="http://pixijs.com">PixiJS</a></li>
+            <li><a href="http://melonjs.org">MelonJS</a></li>
+            <li><a href="http://kiwijs.org">KiwiJS</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        dependencies: [
+          { src: "plugin/markdown/marked.js" },
+          { src: "plugin/markdown/markdown.js" },
+          { src: "plugin/notes/notes.js", async: true },
+          { src: "plugin/highlight/highlight.js", async: true }
+        ]
+      });
+
+      Reveal.addEventListener("draw", function() {
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+
+        function draw() {
+          ctx.fillStyle = "red";
+          ctx.fillRect(25, 25, 50, 50);
+        }
+
+        draw();
+      });
+
+      var animate;
+      Reveal.addEventListener("update", function() {
+        var canvas = document.getElementById("myCanvas2");
+        var ctx = canvas.getContext("2d");
+        var x = 25;
+        var moveX = 5;
+
+        function draw() {
+          ctx.clearRect(0, 0, 800, 100);
+          ctx.fillStyle = "red";
+          ctx.fillRect(x, 25, 50, 50);
+        }
+
+        function update() {
+          if (x > 800) {
+            x = 0;
+          }
+        }
+        //   if (x < 0) {
+        //     moveX = 5;
+        //   }
+        //   if (x > 750) {
+        //     moveX = -5;
+        //   }
+        //   x += moveX;
+        // }
+
+        clearInterval(animate);
+        animate = setInterval(function() {
+          draw();
+          update();
+        }, 1000 / 60);
+      });
+
+      var animate2;
+      Reveal.addEventListener("noclear", function() {
+        var canvas = document.getElementById("myCanvas3");
+        var ctx = canvas.getContext("2d");
+        var x = 25;
+        var moveX = 5;
+
+        function draw() {
+          ctx.fillStyle = "red";
+          ctx.fillRect(x, 25, 50, 50);
+        }
+
+        function update() {
+          if (x > 800) {
+            x = 0;
+          }
+          x += moveX;
+        }
+
+        clearInterval(animate2);
+        ctx.clearRect(0, 0, 800, 100);
+        animate2 = setInterval(function() {
+          draw();
+          update();
+        }, 1000 / 60);
+      });
+    </script>
+  </body>
+</html>
